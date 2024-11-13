@@ -103,7 +103,7 @@ ip route  192.168.1.129 255.255.255.255 10.2.1.1
 do sh ip route static
 Pano mag static Route sa PC:
 cmd
-route  add 10.m.0.0 mask 255.255.0.0 10.m.1.4 -p
+route  add 10.61.0.0 mask 255.255.0.0 10.61.1.4 -p
 
 How to Create Default Route Cisco/PC/EndDevices:
 p1:
@@ -119,7 +119,7 @@ ip route 0.0.0.0  0.0.0.0 10.2.1.2 1
 ip route 0.0.0.0  0.0.0.0 10.2.1.1 2
 do sh ip route static
 
-D1:
+D1: OLD
 config t
 router eigrp 100
  no auto-summary
@@ -129,7 +129,7 @@ router eigrp 100
  network 192.168.1.128 0.0.0.31
 end
 
-or NEXUS-like
+or NEXUS-like - NEW - USE this 
 
 conf t
 	router eigrp CCNPLEVEL
@@ -141,7 +141,7 @@ conf t
 		end
 
 
-D2:
+D2: OLD
 config t
 router eigrp 100
  no auto-summary
@@ -152,7 +152,7 @@ router eigrp 100
 end
 show ip eigrp neighbor
 
-or NEXUS-like
+or NEXUS-like - NEW - USE this 
 
 conf t
 	router eigrp CCNPLEVEL
@@ -186,11 +186,13 @@ Int loopback 0
  ip add 4.4.4.4 255.255.255.255
 router ospf 1
 router-id 4.4.4.4
-network 4.4.4.4 0.0.0.0 area 34
-network 10.1.1.8 0.0.0.3 area 34
+network 4.4.4.4 0.0.0.0 area 0
+network 10.1.1.8 0.0.0.3 area 0
 interface e1/2
    ip ospf network point-to-point
+
    !eto lab sa exam sa 2024/2025
+
 R3:
 config t
 Int loopback 0
@@ -199,7 +201,7 @@ router ospf 1
 router-id 3.3.3.3
 network 3.3.3.3 0.0.0.0 area 0
 network 10.1.1.4 0.0.0.3 area 0
-network 10.1.1.8 0.0.0.3 area 34
+network 10.1.1.8 0.0.0.3 area 0
 interface e1/2
    ip ospf network point-to-point
 
@@ -211,18 +213,20 @@ router ospf 1
 router-id 2.2.2.2
 network 2.2.2.2 0.0.0.0 area 0
 network 10.1.1.4 0.0.0.3 area 0
-network 10.1.1.0 0.0.0.3 area 12
+network 10.1.1.0 0.0.0.3 area 0
 interface e1/2
    ip ospf network point-to-point
+
   !! eto mismo ang Lab mo:
+
 R1:
 config t
 Int loopback 0
  ip add 1.1.1.1 255.255.255.255
 router ospf 1
 router-id 1.1.1.1
-network 1.1.1.1 0.0.0.0 area 12
-network 10.1.1.0 0.0.0.3 area 12
+network 1.1.1.1 0.0.0.0 area 0
+network 10.1.1.0 0.0.0.3 area 0
 interface e1/0
    ip ospf network point-to-point
 
@@ -231,6 +235,16 @@ SIP: sh ip protocols
 SION: sh ip ospf neighbor
 SIOD: sh ip ospf database
 SIRO: sh ip route ospf
+
+Exam question: How do OSPF reset/refresh the election? "PANDAK NA KAPATID"
+OSPF States: Clear IP OSPF Process Job interview Question
+Down
+Init
+Two-Way
+Exstart
+Exchange
+Loading
+FULL: All is well, all is ping
 
 @declaring Link between r3 and r4 as Point to Point:
 R3:
@@ -263,7 +277,7 @@ router bgp 1
  neighbor 207.7.7.2 remote-as 2
  neighbor 209.9.9.3 remote-as 3
  network 10.1.1.0 Mask 255.255.255.252
- network 207.7.7.0 mask 255.255.255.0
+ network 207.7.7.0 mask 255.255.255.0 
  network 208.8.8.0 mask 255.255.255.0
  network 209.9.9.0 mask 255.255.255.0
 end
