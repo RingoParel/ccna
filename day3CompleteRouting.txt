@@ -227,7 +227,7 @@ router ospf 1
 router-id 1.1.1.1
 network 1.1.1.1 0.0.0.0 area 0
 network 10.1.1.0 0.0.0.3 area 0
-interface e1/2
+interface e1/0
    ip ospf network point-to-point
 
 OSPF checking:
@@ -276,7 +276,7 @@ router bgp 1
  neighbor 208.8.8.4 remote-as 45
  neighbor 207.7.7.2 remote-as 2
  neighbor 209.9.9.3 remote-as 3
- network 10.1.1.0 Mask 255.255.255.252
+ network 10.1.1.0 mask 255.255.255.252
  network 207.7.7.0 mask 255.255.255.0 
  network 208.8.8.0 mask 255.255.255.0
  network 209.9.9.0 mask 255.255.255.0
